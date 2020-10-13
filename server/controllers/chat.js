@@ -1,3 +1,4 @@
 exports.sendMessage = (req, res, next) => {
-  res.json({ test: "test" });
+  const io = require("../socket");
+  io.getIO().emit("message", { action: "create", post: "yo" });
 };
