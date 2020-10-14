@@ -1,15 +1,16 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const multer = require("multer");
 
 const chatRoutes = require("./routes/chat");
 
 const app = express();
 
-// parse application/x-www-form-urlencoded
+// parse req data
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(bodyParser.json());
+app.use(multer().single());
 
 //cors settings
 const whitelist = ["http://localhost:3000"];
@@ -22,9 +23,9 @@ const corsOptions = {
     }
   },
 };
-
 app.use(cors(corsOptions));
 
+//routes
 app.use(chatRoutes);
 
 const server = app.listen(9000);
