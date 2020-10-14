@@ -1,9 +1,15 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const chatRoutes = require("./routes/chat");
 
 const app = express();
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(bodyParser.json());
 
 //cors settings
 const whitelist = ["http://localhost:3000"];
