@@ -3,8 +3,12 @@
   border: 1px solid black;
 }
 
-.chatContainer .messagesContainer {
+.chatContainer .messagesWindow {
   height: 250px;
+}
+
+.chatContainer .messagesContainer {
+  height: 100%;
   overflow-y: scroll;
 }
 

@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -13,7 +15,7 @@ app.use(bodyParser.json());
 app.use(multer().single());
 
 //cors settings
-const whitelist = ["http://localhost:3000"];
+const whitelist = [process.env.FRONT_END];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -28,7 +30,8 @@ app.use(cors(corsOptions));
 //routes
 app.use(chatRoutes);
 
-const server = app.listen(9000);
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT);
 const io = require("./socket").init(server);
 io.on("connection", (socket) => {
   console.log("client connected");

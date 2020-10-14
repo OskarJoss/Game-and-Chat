@@ -5,10 +5,12 @@ import "./chat.css";
 
 const Chat = () => {
   React.useEffect(() => {
-    const socket = openSocket("http://localhost:9000");
+    const socket = openSocket(process.env.REACT_APP_API);
     socket.on("message", (data) => {
       if (data.action === "created") {
         appendMessage(data.message);
+        messagesContainer.current.scrollTop =
+          messagesContainer.current.scrollHeight;
       }
     });
   }, []);
@@ -20,9 +22,11 @@ const Chat = () => {
     e.preventDefault();
     const data = new FormData(form.current);
     //backend is not sending a response right now
-    fetch("http://localhost:9000/chat", { method: "POST", body: data })
+    fetch(`${process.env.REACT_APP_API}/chat`, { method: "POST", body: data })
       .then((res) => res.json())
-      .then((json) => {});
+      .then((json) => {
+        console.log(json);
+      });
 
     form.current.querySelector("input").value = "";
   };
@@ -35,7 +39,9 @@ const Chat = () => {
 
   return (
     <div className="chatContainer">
-      <div ref={messagesContainer} className="messagesContainer"></div>
+      <div className="messagesWindow">
+        <div ref={messagesContainer} className="messagesContainer"></div>
+      </div>
       <form ref={form} onSubmit={submitForm}>
         <input type="text" name="message" />
         <input type="submit" name="Send" />
