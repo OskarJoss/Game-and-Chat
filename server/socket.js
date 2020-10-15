@@ -10,6 +10,15 @@ module.exports = {
       counter++;
       console.log(`${socket.username} connected`);
 
+      socket.on("chat", (data) => {
+        if (data.action === "send message") {
+          io.emit("chat", {
+            action: "incoming message",
+            message: data.message,
+          });
+        }
+      });
+
       socket.once("disconnect", () => {
         console.log(`${socket.username} disconnected`);
       });

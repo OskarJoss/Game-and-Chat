@@ -1,32 +1,27 @@
 import React from "react";
-// import openSocket from "socket.io-client";
 
 import "./chat.css";
 
 const Chat = (props) => {
   React.useEffect(() => {
-    // const socket = openSocket(process.env.REACT_APP_API);
-    props.socket.on("message", (data) => {
-      if (data.action === "created") {
+    props.socket.on("chat", (data) => {
+      if (data.action === "incoming message") {
         appendMessage(data.message);
       }
     });
-  }, []);
+  }, [props]);
 
-  const form = React.useRef(null);
+  const input = React.useRef(null);
   const messagesContainer = React.useRef(null);
 
-  const submitForm = (e) => {
+  const sendMessage = (e) => {
     e.preventDefault();
-    const data = new FormData(form.current);
-    //had to send http response from backend or it failed eventually
-    fetch(`${process.env.REACT_APP_API}/chat`, { method: "POST", body: data })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-      });
-
-    form.current.querySelector("input").value = "";
+    console.log(props.socket.username);
+    props.socket.emit("chat", {
+      action: "send message",
+      message: input.current.value,
+    });
+    input.current.value = "";
   };
 
   const appendMessage = (message) => {
@@ -40,8 +35,8 @@ const Chat = (props) => {
   return (
     <div className="chatContainer">
       <div ref={messagesContainer} className="messagesContainer"></div>
-      <form ref={form} onSubmit={submitForm}>
-        <input type="text" name="message" />
+      <form onSubmit={sendMessage}>
+        <input ref={input} type="text" name="message" />
         <input type="submit" name="Send" />
       </form>
     </div>
