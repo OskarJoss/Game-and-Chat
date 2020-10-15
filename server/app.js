@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 
 const chatRoutes = require("./routes/chat");
+const roomRoutes = require("./routes/rooms");
 
 const app = express();
 
@@ -29,10 +30,8 @@ app.use(cors(corsOptions));
 
 //routes
 app.use(chatRoutes);
+app.use(roomRoutes);
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT);
 const io = require("./socket").init(server);
-io.on("connection", (socket) => {
-  console.log("client connected");
-});

@@ -1,16 +1,14 @@
 import React from "react";
-import openSocket from "socket.io-client";
+// import openSocket from "socket.io-client";
 
 import "./chat.css";
 
-const Chat = () => {
+const Chat = (props) => {
   React.useEffect(() => {
-    const socket = openSocket(process.env.REACT_APP_API);
-    socket.on("message", (data) => {
+    // const socket = openSocket(process.env.REACT_APP_API);
+    props.socket.on("message", (data) => {
       if (data.action === "created") {
         appendMessage(data.message);
-        messagesContainer.current.scrollTop =
-          messagesContainer.current.scrollHeight;
       }
     });
   }, []);
@@ -21,7 +19,7 @@ const Chat = () => {
   const submitForm = (e) => {
     e.preventDefault();
     const data = new FormData(form.current);
-    //backend is not sending a response right now
+    //had to send http response from backend or it failed eventually
     fetch(`${process.env.REACT_APP_API}/chat`, { method: "POST", body: data })
       .then((res) => res.json())
       .then((json) => {
@@ -35,13 +33,13 @@ const Chat = () => {
     const p = document.createElement("p");
     p.textContent = message;
     messagesContainer.current.appendChild(p);
+    messagesContainer.current.scrollTop =
+      messagesContainer.current.scrollHeight;
   };
 
   return (
     <div className="chatContainer">
-      <div className="messagesWindow">
-        <div ref={messagesContainer} className="messagesContainer"></div>
-      </div>
+      <div ref={messagesContainer} className="messagesContainer"></div>
       <form ref={form} onSubmit={submitForm}>
         <input type="text" name="message" />
         <input type="submit" name="Send" />
