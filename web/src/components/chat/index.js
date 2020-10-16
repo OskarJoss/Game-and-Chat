@@ -1,23 +1,23 @@
 import React from "react";
+import { socket } from "../../service/socket";
 
 import "./chat.css";
 
-const Chat = (props) => {
+const Chat = () => {
   React.useEffect(() => {
-    props.socket.on("chat", (data) => {
+    socket.on("chat", (data) => {
       if (data.action === "incoming message") {
         appendMessage(data.message);
       }
     });
-  }, [props]);
+  }, []);
 
   const input = React.useRef(null);
   const messagesContainer = React.useRef(null);
 
   const sendMessage = (e) => {
     e.preventDefault();
-    console.log(props.socket.username);
-    props.socket.emit("chat", {
+    socket.emit("chat", {
       action: "send message",
       message: input.current.value,
     });
