@@ -5,3 +5,10 @@
   justify-content: center;
   align-items: center;
 }
+
+.App .wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
