@@ -3,28 +3,56 @@ import { socket } from "../../service/socket";
 
 import "./ticTacToe.css";
 
-const Game = () => {
+const TicTacToe = () => {
   const [gameState, setGameState] = React.useState(null);
   React.useEffect(() => {
     socket.emit("tic-tac-toe", {
-      action: "start",
+      action: "start game",
     });
+
     socket.on("tic-tac-toe", (data) => {
       if (data.action === "initial state") {
-        console.log(data);
-        setGameState(data.gameObject);
+        setGameState(data.gameState);
       }
     });
   }, []);
 
   return (
-    <div className="ticTacToeContainer">
-      <h2>hej</h2>
+    <div className="ticTacToeWrapper">
       {(() => {
-        if (gameState) return <h2>{gameState.title}</h2>;
+        if (gameState)
+          return (
+            <div className="ticTacToeContainer">
+              <h2>
+                {gameState.turn === socket.id ? "Your turn" : "Opponents turn"}
+              </h2>
+
+              <div className="board">
+                {gameState.board.map((row, i) => (
+                  <div className="row" key={i}>
+                    {row.map((square, i) => {
+                      let symbol = "";
+                      if (square === 1) {
+                        symbol = "X";
+                      }
+                      if (square === 2) {
+                        symbol = "O";
+                      }
+                      return (
+                        <div className="square" key={i}>
+                          {symbol}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        return <h2>No game data</h2>;
       })()}
     </div>
   );
 };
 
-export default Game;
+export default TicTacToe;
