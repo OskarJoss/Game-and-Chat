@@ -15,10 +15,10 @@ const roomController = function (data) {
       io.to(socket.room).emit("room", {
         action: "joined room",
       });
-      //maby something like this
-      io.to(socket.room).emit("game", {
-        action: "initial state",
-        gameObject: { title: "game objectzzz" },
+      //send data from front-end on what game to play
+      io.to(socket.room).emit("room", {
+        action: "picked game",
+        game: "tic-tac-toe",
       });
       return;
     }

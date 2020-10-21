@@ -1,5 +1,6 @@
 const roomController = require("./controllers/room");
 const chatController = require("./controllers/chat");
+const ticTacToeController = require("./controllers/ticTacToeController");
 const disconnectController = require("./controllers/disconnect");
 
 let io;
@@ -7,7 +8,9 @@ let userCounter = 1;
 
 module.exports = {
   init: (httpServer) => {
-    io = require("socket.io")(httpServer);
+    io = require("socket.io")(httpServer, {
+      pingTimeout: 60000,
+    });
 
     io.on("connection", (socket) => {
       socket.username = `user${userCounter}`;
@@ -16,6 +19,7 @@ module.exports = {
 
       socket.on("room", roomController);
       socket.on("chat", chatController);
+      socket.on("tic-tac-toe", ticTacToeController);
       socket.once("disconnect", disconnectController);
     });
 
