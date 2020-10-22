@@ -1,6 +1,6 @@
 const roomController = require("./controllers/room");
 const chatController = require("./controllers/chat");
-const ticTacToeController = require("./controllers/ticTacToeController");
+const ticTacToeController = require("./controllers/ticTacToe");
 const disconnectController = require("./controllers/disconnect");
 
 let io;
