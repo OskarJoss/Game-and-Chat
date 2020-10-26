@@ -1,0 +1,20 @@
+{
+  "name": "game-and-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd server/ && npm install && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OskarJoss/Game-and-Chat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OskarJoss/Game-and-Chat/issues"
+  },
+  "homepage": "https://github.com/OskarJoss/Game-and-Chat#readme"
+}
